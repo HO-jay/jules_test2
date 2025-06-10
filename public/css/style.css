@@ -1,0 +1,49 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    height: 100%;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+*, *:before, *:after {
+    box-sizing: inherit; /* Inherit box-sizing for all elements */
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.panel {
+    flex: 1; /* Each panel takes up equal space */
+    padding: 20px;
+    border: 1px solid #ccc;
+    overflow-y: auto; /* Make content scrollable if it overflows */
+    height: 100%; /* Make panels take full height of the container */
+}
+
+/* Specific styling for input and output panels if needed later */
+.input-panel {
+    /* background-color: #f9f9f9; */ /* Example subtle background */
+}
+
+.output-panel {
+    /* background-color: #f0f0f0; */ /* Example subtle background */
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+        height: auto; /* Allow height to grow with content on small screens */
+    }
+
+    .panel {
+        width: 100%;
+        flex: none; /* Reset flex property */
+        /* For stacked layout, height might need adjustment or be content-driven */
+        /* Consider min-height or specific height if needed for stacked panels */
+         height: 50vh; /* Example: each panel takes half the viewport height */
+    }
+}
