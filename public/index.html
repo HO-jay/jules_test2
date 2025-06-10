@@ -3,17 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Translation App</title>
+    <title>번역 애플리케이션</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="app-container">
         <div id="left-panel" class="panel input-panel">
-            Input Area
+            <div class="tab-container">
+                <button class="tab-button active" data-tab="text-input">텍스트</button>
+                <button class="tab-button" data-tab="image-input">이미지</button>
+                <button class="tab-button" data-tab="document-input">문서</button>
+            </div>
+            <div id="text-input-content" class="tab-content active">
+                <textarea id="text-to-translate" placeholder="번역할 내용을 입력하세요..."></textarea>
+                <div class="text-area-footer">
+                    <span class="icon-placeholder" title="음성 입력 (구현 예정)">🎤</span>
+                    <span id="char-count">0 / 5,000</span>
+                    <span class="icon-placeholder" title="입력 도구 (구현 예정)">✏️</span>
+                </div>
+            </div>
+            <div id="image-input-content" class="tab-content">
+                <!-- 이미지 입력 영역 (9단계에서 구체화) -->
+                <p>이미지 업로드 기능이 여기에 표시됩니다.</p>
+            </div>
+            <div id="document-input-content" class="tab-content">
+                <!-- 문서 입력 영역 (10단계에서 구체화) -->
+                <p>문서 업로드 기능이 여기에 표시됩니다.</p>
+            </div>
         </div>
         <div id="right-panel" class="panel output-panel">
-            Output Area
+            출력 영역
         </div>
     </div>
+    <script src="js/script.js"></script>
 </body>
 </html>

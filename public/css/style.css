@@ -12,38 +12,123 @@ html, body {
 
 .app-container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    min-height: 100vh;
 }
 
 .panel {
-    flex: 1; /* Each panel takes up equal space */
+    flex: 1;
     padding: 20px;
     border: 1px solid #ccc;
-    overflow-y: auto; /* Make content scrollable if it overflows */
-    height: 100%; /* Make panels take full height of the container */
+    overflow-y: auto;
+    height: 100%;
+}
+
+/* Modified for this subtask */
+#left-panel {
+   overflow-y: hidden; /* 내부 컨텐츠가 넘칠 경우 left-panel 자체 스크롤 대신 내부에서 처리하도록 */
 }
 
 /* Specific styling for input and output panels if needed later */
 .input-panel {
-    /* background-color: #f9f9f9; */ /* Example subtle background */
+    /* background-color: #f9f9f9; */
 }
 
 .output-panel {
-    /* background-color: #f0f0f0; */ /* Example subtle background */
+    /* background-color: #f0f0f0; */
 }
+
+/* Tab Styles */
+.tab-container {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+.tab-button {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1em;
+    margin-right: 5px;
+    border-bottom: 3px solid transparent;
+}
+.tab-button.active {
+    border-bottom: 3px solid #007bff;
+    font-weight: bold;
+}
+.tab-button:hover {
+    background-color: #f0f0f0;
+}
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+/* 텍스트 입력 영역 스타일 - Added for this subtask */
+#text-input-content {
+    /* display: flex; is set by #text-input-content.active below */
+    flex-direction: column;
+    /* height: calc(100% - 45px); /* 탭 높이(대략)와 panel padding을 고려해야 함.
+                                     Panel padding 20px 상하 = 40px. 탭컨테이너 margin-bottom 15px. 탭 자체높이 약 40px.
+                                     left-panel에서 overflow:hidden을 사용하므로,
+                                     여기서 height 100%를 주고, textarea가 flex-grow하도록 하는게 더 유연할 수 있음.
+                                     Let's try height: 100% and rely on flex-grow for textarea.
+                                  */
+    height: 100%; /* This div will take full height of its parent minus tab container */
+}
+
+/* This rule overrides .tab-content.active's display:block */
+#text-input-content.active {
+   display: flex;
+}
+
+#text-to-translate {
+    flex-grow: 1; /* 남은 공간을 모두 차지하도록 */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1.1em;
+    resize: none; /* 사용자가 크기 조절 못하게 */
+    margin-bottom: 10px; /* 푸터와의 간격 */
+}
+
+.text-area-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.icon-placeholder {
+    cursor: not-allowed; /* 아직 구현되지 않았음을 시각적으로 표시 */
+    font-size: 1.2em;
+    padding: 0 5px;
+}
+/* End 텍스트 입력 영역 스타일 */
 
 @media (max-width: 768px) {
     .app-container {
         flex-direction: column;
-        height: auto; /* Allow height to grow with content on small screens */
+        height: auto;
     }
 
     .panel {
         width: 100%;
-        flex: none; /* Reset flex property */
-        /* For stacked layout, height might need adjustment or be content-driven */
-        /* Consider min-height or specific height if needed for stacked panels */
-         height: 50vh; /* Example: each panel takes half the viewport height */
+        flex: none;
+        min-height: 50vh;
     }
+    /* Ensure left-panel overflow is also handled for mobile if needed */
+    #left-panel {
+        overflow-y: auto; /* On mobile, allow left panel to scroll if content exceeds 50vh */
+    }
+    #text-input-content {
+        height: auto; /* Allow text input area to define its own height within the scrolled panel */
+    }
+
 }
