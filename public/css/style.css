@@ -3,41 +3,84 @@ html, body {
     padding: 0;
     font-family: sans-serif;
     height: 100%;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
+    box-sizing: border-box;
 }
 
 *, *:before, *:after {
-    box-sizing: inherit; /* Inherit box-sizing for all elements */
+    box-sizing: inherit;
 }
 
 .app-container {
     display: flex;
+    flex-direction: column;
     min-height: 100vh;
+}
+
+.language-selection-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+.language-controls-left, .language-controls-right {
+    display: flex;
+    align-items: center;
+}
+.lang-button {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.lang-button:hover {
+    background-color: #e9ecef;
+}
+#detect-language-button {
+    margin-right: 8px;
+}
+.language-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    min-width: 120px;
+}
+.swap-button {
+    font-size: 1.2em;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.main-content-panels {
+   display: flex;
+   flex-grow: 1;
+   overflow-y: hidden;
 }
 
 .panel {
     flex: 1;
     padding: 20px;
-    border: 1px solid #ccc;
-    overflow-y: auto;
+    border: 0; /* Remove individual panel borders, rely on borders between them */
     height: 100%;
 }
 
-/* Modified for this subtask */
 #left-panel {
-   overflow-y: hidden; /* 내부 컨텐츠가 넘칠 경우 left-panel 자체 스크롤 대신 내부에서 처리하도록 */
+   overflow-y: auto;
+   border-right: 1px solid #ccc;
 }
 
-/* Specific styling for input and output panels if needed later */
-.input-panel {
-    /* background-color: #f9f9f9; */
+#right-panel {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
-.output-panel {
-    /* background-color: #f0f0f0; */
-}
+.input-panel {}
+.output-panel {}
 
-/* Tab Styles */
 .tab-container {
     display: flex;
     border-bottom: 1px solid #ccc;
@@ -59,76 +102,116 @@ html, body {
 .tab-button:hover {
     background-color: #f0f0f0;
 }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+#text-input-content { flex-direction: column; height: 100%; }
+#text-input-content.active { display: flex; }
+#text-to-translate { flex-grow: 1; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1.1em; resize: none; margin-bottom: 10px; }
+.text-area-footer { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 0.9em; color: #555; gap: 10px; }
+.icon-placeholder { cursor: not-allowed; font-size: 1.2em; padding: 0 5px; }
+#translated-text-area { flex-grow: 1; width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 1.1em; resize: none; margin-bottom: 10px; background-color: #f8f9fa; }
+.output-area-footer { display: flex; justify-content: flex-start; align-items: center; padding: 5px 0; font-size: 0.9em; color: #555; }
+.output-area-footer .icon-placeholder { margin-right: 10px; }
+.translate-button { padding: 8px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em; margin-left: auto; margin-right: auto; }
+.translate-button:hover { background-color: #0056b3; }
+.translate-button:disabled { background-color: #aaa; cursor: not-allowed; }
 
-.tab-content {
-    display: none;
-}
-.tab-content.active {
-    display: block;
-}
+.image-upload-container, .document-upload-container { padding: 10px; border: 2px dashed #ccc; border-radius: 5px; text-align: center; }
+.file-input { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; }
+.file-input-label { display: inline-block; padding: 10px 20px; font-size: 1em; color: #fff; background-color: #007bff; border-radius: 4px; cursor: pointer; margin-bottom: 15px; }
+.file-input-label:hover { background-color: #0056b3; }
+.image-preview { width: 100%; min-height: 150px; max-height: 300px; border: 1px solid #ddd; margin-bottom: 15px; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: #f8f9fa; }
+#image-preview-tag { max-width: 100%; max-height: 100%; object-fit: contain; }
+#image-preview-placeholder { color: #888; }
+.document-info { width: 100%; min-height: 50px; border: 1px solid #ddd; margin-bottom: 15px; padding: 10px; display: flex; justify-content: center; align-items: center; background-color: #f8f9fa; font-size: 0.9em; color: #555; word-break: break-all; }
+#document-name-placeholder { color: #888; }
+.supported-formats-info { font-size: 0.85em; color: #666; margin-bottom: 15px; }
 
-/* 텍스트 입력 영역 스타일 - Added for this subtask */
-#text-input-content {
-    /* display: flex; is set by #text-input-content.active below */
-    flex-direction: column;
-    /* height: calc(100% - 45px); /* 탭 높이(대략)와 panel padding을 고려해야 함.
-                                     Panel padding 20px 상하 = 40px. 탭컨테이너 margin-bottom 15px. 탭 자체높이 약 40px.
-                                     left-panel에서 overflow:hidden을 사용하므로,
-                                     여기서 height 100%를 주고, textarea가 flex-grow하도록 하는게 더 유연할 수 있음.
-                                     Let's try height: 100% and rely on flex-grow for textarea.
-                                  */
-    height: 100%; /* This div will take full height of its parent minus tab container */
-}
-
-/* This rule overrides .tab-content.active's display:block */
-#text-input-content.active {
-   display: flex;
-}
-
-#text-to-translate {
-    flex-grow: 1; /* 남은 공간을 모두 차지하도록 */
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1.1em;
-    resize: none; /* 사용자가 크기 조절 못하게 */
-    margin-bottom: 10px; /* 푸터와의 간격 */
-}
-
-.text-area-footer {
+/* 하단 아이콘 영역 - Added for this subtask */
+.bottom-footer-icons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 0;
+    padding: 15px 25px;
+    border-top: 1px solid #ccc;
+    background-color: #f8f9fa;
+}
+
+.footer-icons-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 20px;
+    font-size: 0.9em; /* Base font size for the button text itself if any */
+    color: #333;
+    border-radius: 4px;
+}
+.footer-button:hover {
+    background-color: #e9ecef;
+}
+.footer-icon {
+    font-size: 1.8em;
+    margin-bottom: 3px;
+}
+.footer-label {
+    font-size: 0.8em;
+}
+
+.footer-feedback-right a {
     font-size: 0.9em;
-    color: #555;
+    color: #007bff;
+    text-decoration: none;
 }
-
-.icon-placeholder {
-    cursor: not-allowed; /* 아직 구현되지 않았음을 시각적으로 표시 */
-    font-size: 1.2em;
-    padding: 0 5px;
+.footer-feedback-right a:hover {
+    text-decoration: underline;
 }
-/* End 텍스트 입력 영역 스타일 */
+/* End 하단 아이콘 영역 */
 
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .app-container {
-        flex-direction: column;
-        height: auto;
-    }
+    .panel { padding: 15px; }
+    .text-area-footer { flex-wrap: wrap; justify-content: center; }
+    .translate-button { order: -1; margin-bottom: 5px; }
+    .image-upload-container, .document-upload-container { padding: 5px; }
+    .image-preview { min-height: 100px; max-height: 200px; }
+    .document-info { min-height: 40px; font-size: 0.8em; }
+}
 
-    .panel {
-        width: 100%;
-        flex: none;
-        min-height: 50vh;
-    }
-    /* Ensure left-panel overflow is also handled for mobile if needed */
-    #left-panel {
-        overflow-y: auto; /* On mobile, allow left panel to scroll if content exceeds 50vh */
-    }
-    #text-input-content {
-        height: auto; /* Allow text input area to define its own height within the scrolled panel */
-    }
+@media (max-width: 600px) {
+   .language-selection-area { flex-direction: column; align-items: stretch; }
+   .language-controls-left, .language-controls-right { justify-content: space-between; margin-bottom: 8px; width: 100%; }
+   .swap-button { margin: 5px auto; width: fit-content; }
+   .language-select { flex-grow: 1; }
+   #detect-language-button { margin-right: 8px; }
+   .main-content-panels { flex-direction: column; height: auto; overflow-y: auto; }
+   #left-panel, #right-panel { border-right: none; border-bottom: 1px solid #ccc; height: auto; min-height: 50vh; }
+   #right-panel { border-bottom: none; }
+}
 
+@media (max-width: 480px) { /* For bottom footer icons */
+   .bottom-footer-icons {
+       flex-direction: column;
+       padding: 10px;
+   }
+   .footer-icons-left {
+       margin-bottom: 10px;
+       justify-content: center;
+   }
+   .footer-button {
+       margin-left: 10px;
+       margin-right: 10px;
+   }
+   .footer-feedback-right {
+       text-align: center;
+   }
 }

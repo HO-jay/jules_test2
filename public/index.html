@@ -8,31 +8,89 @@
 </head>
 <body>
     <div class="app-container">
-        <div id="left-panel" class="panel input-panel">
-            <div class="tab-container">
-                <button class="tab-button active" data-tab="text-input">텍스트</button>
-                <button class="tab-button" data-tab="image-input">이미지</button>
-                <button class="tab-button" data-tab="document-input">문서</button>
+        <div class="language-selection-area">
+            <div class="language-controls-left">
+                <button id="detect-language-button" class="lang-button">언어 감지</button>
+                <select id="source-language-select" class="language-select">
+                    <option value="ko">한국어</option>
+                    <option value="zh-CN">중국어 (간체)</option>
+                    <option value="ja">일본어</option>
+                    <option value="id">인도네시아어</option>
+                    <option value="en">영어</option>
+                </select>
             </div>
-            <div id="text-input-content" class="tab-content active">
-                <textarea id="text-to-translate" placeholder="번역할 내용을 입력하세요..."></textarea>
-                <div class="text-area-footer">
-                    <span class="icon-placeholder" title="음성 입력 (구현 예정)">🎤</span>
-                    <span id="char-count">0 / 5,000</span>
-                    <span class="icon-placeholder" title="입력 도구 (구현 예정)">✏️</span>
-                </div>
-            </div>
-            <div id="image-input-content" class="tab-content">
-                <!-- 이미지 입력 영역 (9단계에서 구체화) -->
-                <p>이미지 업로드 기능이 여기에 표시됩니다.</p>
-            </div>
-            <div id="document-input-content" class="tab-content">
-                <!-- 문서 입력 영역 (10단계에서 구체화) -->
-                <p>문서 업로드 기능이 여기에 표시됩니다.</p>
+            <button id="swap-languages-button" class="lang-button swap-button" title="언어 전환">↔</button>
+            <div class="language-controls-right">
+                <select id="target-language-select" class="language-select">
+                    <option value="en">영어</option>
+                    <option value="ko">한국어</option>
+                    <option value="zh-CN">중국어 (간체)</option>
+                    <option value="ja">일본어</option>
+                    <option value="id">인도네시아어</option>
+                </select>
             </div>
         </div>
-        <div id="right-panel" class="panel output-panel">
-            출력 영역
+        <div class="main-content-panels">
+            <div id="left-panel" class="panel input-panel">
+                <div class="tab-container">
+                    <button class="tab-button active" data-tab="text-input">텍스트</button>
+                    <button class="tab-button" data-tab="image-input">이미지</button>
+                    <button class="tab-button" data-tab="document-input">문서</button>
+                </div>
+                <div id="text-input-content" class="tab-content active">
+                    <textarea id="text-to-translate" placeholder="번역할 내용을 입력하세요..."></textarea>
+                    <div class="text-area-footer">
+                        <span class="icon-placeholder" title="음성 입력 (구현 예정)">🎤</span>
+                        <button id="translate-text-button" class="translate-button">번역하기</button>
+                        <span id="char-count">0 / 5,000</span>
+                        <span class="icon-placeholder" title="입력 도구 (구현 예정)">✏️</span>
+                    </div>
+                </div>
+                <div id="image-input-content" class="tab-content">
+                    <div class="image-upload-container">
+                        <input type="file" id="image-file-input" accept="image/*" class="file-input">
+                        <label for="image-file-input" class="file-input-label">이미지 파일 선택</label>
+                        <div id="image-preview-area" class="image-preview">
+                            <img id="image-preview-tag" src="#" alt="이미지 미리보기" style="display:none;">
+                            <span id="image-preview-placeholder">이미지를 선택해주세요.</span>
+                        </div>
+                        <button id="translate-image-button" class="translate-button" disabled>이미지 번역하기</button>
+                    </div>
+                </div>
+                <div id="document-input-content" class="tab-content">
+                    <div class="document-upload-container">
+                        <input type="file" id="document-file-input" class="file-input" accept=".txt,.pdf,.doc,.docx,.ppt,.pptx">
+                        <label for="document-file-input" class="file-input-label">문서 파일 선택</label>
+                        <div id="document-info-area" class="document-info">
+                            <span id="document-name-placeholder">선택된 파일 없음</span>
+                        </div>
+                        <p class="supported-formats-info">지원 형식: .txt, .pdf, .doc, .docx, .ppt, .pptx</p>
+                        <button id="translate-document-button" class="translate-button" disabled>문서 번역하기</button>
+                    </div>
+                </div>
+            </div>
+            <div id="right-panel" class="panel output-panel">
+                <textarea id="translated-text-area" readonly placeholder="번역된 내용이 여기에 표시됩니다..."></textarea>
+                <div class="output-area-footer">
+                   <span class="icon-placeholder" title="복사 (구현 예정)">📋</span>
+                   <span class="icon-placeholder" title="듣기 (구현 예정)">🔊</span>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer-icons">
+            <div class="footer-icons-left">
+                <button class="footer-button" id="history-button">
+                    <span class="footer-icon">⏰</span>
+                    <span class="footer-label">기록</span>
+                </button>
+                <button class="footer-button" id="saved-button">
+                    <span class="footer-icon">⭐</span>
+                    <span class="footer-label">저장됨</span>
+                </button>
+            </div>
+            <div class="footer-feedback-right">
+                <a href="#" id="feedback-link">의견 보내기</a>
+            </div>
         </div>
     </div>
     <script src="js/script.js"></script>
